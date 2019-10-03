@@ -36,9 +36,24 @@ from sklearn.metrics import accuracy_score
 clf_knn = KNeighborsClassifier()
 clf_knn.fit(features_train, labels_train)
 prd_knn = clf_knn.predict(features_test)
-print ("Accuracy kNN:", accuracy_score(labels_test, prd_knn))
+print("Accuracy kNN:", accuracy_score(labels_test, prd_knn))
 
-try:
-    prettyPicture(clf_knn, features_test, labels_test)
-except NameError:
-    pass
+prettyPicture(clf_knn, features_test, labels_test, 'knn-test.png')
+
+from sklearn.ensemble import AdaBoostClassifier
+
+clf_ada = AdaBoostClassifier()
+clf_ada.fit(features_train, labels_train)
+prd_ada = clf_ada.predict(features_test)
+print("Accuracy AdaBoost:", accuracy_score(labels_test, prd_ada))
+
+prettyPicture(clf_ada, features_test, labels_test, 'ada-test.png')
+
+from sklearn.ensemble import RandomForestClassifier
+
+clf_forest = RandomForestClassifier()
+clf_forest.fit(features_train, labels_train)
+prd_forest = clf_forest.predict(features_test)
+print("Accuracy RandomForest:", accuracy_score(labels_test, prd_forest))
+
+prettyPicture(clf_forest, features_test, labels_test, 'forest-test.png')
