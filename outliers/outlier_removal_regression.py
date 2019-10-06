@@ -33,7 +33,8 @@ print('Score - ', reg.score(ages_test, net_worths_test))
 
 plt.plot(ages, reg.predict(ages), color="blue")
 plt.scatter(ages, net_worths)
-plt.show()
+plt.savefig('outlier_removal_1.png')
+# plt.show()
 
 ### identify and remove the most outlier-y points
 cleaned_data = []
@@ -66,4 +67,5 @@ except NameError:
 plt.scatter(ages, net_worths)
 plt.xlabel("ages")
 plt.ylabel("net worths")
-plt.show()
+plt.savefig('outlier_removal_2.png')
+# plt.show()
