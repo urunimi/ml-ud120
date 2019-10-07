@@ -3,19 +3,12 @@
 """ 
     Skeleton code for k-means clustering mini-project.
 """
-
-
-
-
 import pickle
 import numpy
 import matplotlib.pyplot as plt
 import sys
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
-
-
-
 
 def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
     """ some plotting code designed to help you visualize your clusters """
@@ -50,6 +43,7 @@ feature_1 = "salary"
 feature_2 = "exercised_stock_options"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
+# features_list = [poi, feature_1, feature_2, "total_payments"]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
@@ -60,13 +54,29 @@ poi, finance_features = targetFeatureSplit( data )
 ### (as it's currently written, the line below assumes 2 features)
 for f1, f2 in finance_features:
     plt.scatter( f1, f2 )
-plt.show()
+# plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
+from sklearn.cluster import KMeans
 
+km = KMeans(n_clusters=2)
+km.fit(finance_features)
+pred = km.predict(finance_features)
 
+min_exed_stock, max_exed_stock = None, None
+for _, v in data_dict.items():
+    # excersied = v['exercised_stock_options']
+    feature_value = v['salary']
+    if feature_value == 'NaN':
+        continue
+    if not min_exed_stock or min_exed_stock > feature_value:
+        min_exed_stock = feature_value
+    if not max_exed_stock or max_exed_stock < feature_value:
+        max_exed_stock = feature_value
 
+print('feature_value - ', min_exed_stock)
+print('feature_value - ', max_exed_stock)
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
