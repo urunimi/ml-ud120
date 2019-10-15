@@ -64,19 +64,30 @@ km = KMeans(n_clusters=2)
 km.fit(finance_features)
 pred = km.predict(finance_features)
 
+min_salary, max_salary = None, None
 min_exed_stock, max_exed_stock = None, None
 for _, v in data_dict.items():
     # excersied = v['exercised_stock_options']
     feature_value = v['salary']
-    if feature_value == 'NaN':
-        continue
-    if not min_exed_stock or min_exed_stock > feature_value:
-        min_exed_stock = feature_value
-    if not max_exed_stock or max_exed_stock < feature_value:
-        max_exed_stock = feature_value
+    if feature_value != 'NaN':
+        if not min_salary or min_salary > feature_value:
+            min_salary = feature_value
+        if not max_salary or max_salary < feature_value:
+            max_salary = feature_value
 
-print('feature_value - ', min_exed_stock)
-print('feature_value - ', max_exed_stock)
+    feature_value = v['exercised_stock_options']
+    if feature_value != 'NaN':
+        if not min_exed_stock or min_exed_stock > feature_value:
+            min_exed_stock = feature_value
+        if not max_exed_stock or max_exed_stock < feature_value:
+            max_exed_stock = feature_value
+
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+sals = scaler.fit_transform(numpy.array([[float(min_salary)], [200000.], [float(max_salary)]]))
+opts = scaler.fit_transform(numpy.array([[float(min_exed_stock)], [1000000.], [float(max_exed_stock)]]))
+print(sals)
+print(opts)
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
