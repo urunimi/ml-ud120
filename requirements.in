@@ -5,3 +5,4 @@ scipy
 pip-tools
 matplotlib
 ipython
+pillow
