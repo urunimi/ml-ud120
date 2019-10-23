@@ -44,7 +44,9 @@ plt.xlabel("salary")
 plt.ylabel("bonus")
 plt.savefig('enron_outliers.png')
 
-# We would argue that there’s 4 more outliers to investigate; let's look at a couple of them. Two people made bonuses of at least 5 million dollars, and a salary of over 1 million dollars; in other words, they made out like bandits. What are the names associated with those points?
+# We would argue that there’s 4 more outliers to investigate; 
+# let's look at a couple of them. Two people made bonuses of at least 5 million dollars, and a salary of over 1 million dollars; 
+# in other words, they made out like bandits. What are the names associated with those points?
 sal_names = [(v['salary'], k) for k, v in data_dict.items()]
 sal_names_sorted = sorted(sal_names, key=lambda sal_name: 0 if type(sal_name[0]) is str else sal_name[0])
 print('bandits - ', sal_names_sorted[-2:])
