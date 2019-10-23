@@ -6,3 +6,4 @@ pip-tools
 matplotlib
 ipython
 pillow
+notebook
