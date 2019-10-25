@@ -28,11 +28,9 @@ def get_outliers(data_dict) -> []:
     #     # plt.annotate(name, (salary, bonus))
     # print(outliers)
     # plt.show()
-    
-def naive_bayes(features, labels):
+
+def get_results(features, labels, clf):
     # Provided to give you a starting point. Try a variety of classifiers.
-    from sklearn.naive_bayes import GaussianNB
-    clf = GaussianNB()
 
     ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
     ### using our testing script. Check the tester.py script in the final project
@@ -46,13 +44,14 @@ def naive_bayes(features, labels):
     features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size=0.3, random_state=42)
 
     clf.fit(features_train, labels_train)
-    print('accuracy_score -', clf.score(features_test, labels_test))
+    acc_score = clf.score(features_test, labels_test)
+    print('accuracy_score -', acc_score)
     
     from sklearn.metrics import precision_score, recall_score
     prd = clf.predict(features_test)
     print('precision_score -', precision_score(labels_test, prd))
     print('recall_score -', recall_score(labels_test, prd))
-    return clf
+    return clf, acc_score
 
 def find_poi():
     ### Task 1: Select what features you'll use.
@@ -93,7 +92,21 @@ def find_poi():
     ### you'll need to use Pipelines. For more info:
     ### http://scikit-learn.org/stable/modules/pipeline.html
 
-    clf = naive_bayes(features, labels)
+    from sklearn.naive_bayes import GaussianNB
+    clf, acc_score = get_results(features, labels, GaussianNB())
+
+    from sklearn.tree import DecisionTreeClassifier
+    d_clf, d_acc_score = get_results(features, labels, DecisionTreeClassifier(min_samples_split=5))
+    if d_acc_score > acc_score:
+        clf = d_clf
+
+    # from sklearn.model_selection import GridSearchCV
+    # from sklearn.svm import SVC
+    # param_grid = {
+    #      'C': [1e3, 5e3, 1e4, 5e4, 1e5],
+    #       'gamma': [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.1],
+    #       }
+    # clf = get_results(features, labels, GridSearchCV(SVC(kernel='rbf', class_weight='balanced'), param_grid))
 
     ### Task 6: Dump your classifier, dataset, and features_list so anyone can
     ### check your results. You do not need to change anything below, but make sure
